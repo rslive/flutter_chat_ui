@@ -175,6 +175,7 @@ class Message extends StatelessWidget {
                 decoration: BoxDecoration(
                   boxShadow:  const [
                    BoxShadow(
+
                       color:AppColor.backgroundColor,
                       spreadRadius: 1,
                       blurRadius: 9,
