@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../util.dart';
 import 'inherited_chat_theme.dart';
 import 'inherited_l10n.dart';
 
@@ -17,16 +18,14 @@ class AttachmentButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 24,
-      margin: const EdgeInsets.only(right: 16),
+      margin: const EdgeInsets.only(right: 16,top: 3),
       width: 24,
-      child: IconButton(
+      child:
+
+      IconButton(
         icon: InheritedChatTheme.of(context).theme.attachmentButtonIcon != null
             ? InheritedChatTheme.of(context).theme.attachmentButtonIcon!
-            : Image.asset(
-                'assets/icon-attachment.png',
-                color: InheritedChatTheme.of(context).theme.inputTextColor,
-                package: 'flutter_chat_ui',
-              ),
+            : const Icon(Icons.camera_alt_outlined,color: AppColor.textAndStarGrey,size: 28,),
         onPressed: onPressed,
         padding: EdgeInsets.zero,
         tooltip:

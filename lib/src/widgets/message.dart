@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
-
-import '../models/emoji_enlargement_behavior.dart';
+import '../../flutter_chat_ui.dart';
 import '../util.dart';
 import 'file_message.dart';
 import 'image_message.dart';
@@ -80,17 +79,16 @@ class Message extends StatelessWidget {
   final void Function(types.User)? onAvatarTap;
 
   /// Called when user makes a long press on any message
-  final void Function(BuildContext context, types.Message)? onMessageLongPress;
+  final void Function(types.Message)? onMessageLongPress;
 
   /// Called when user makes a long press on status icon in any message
-  final void Function(BuildContext context, types.Message)?
-      onMessageStatusLongPress;
+  final void Function(types.Message)? onMessageStatusLongPress;
 
   /// Called when user taps on status icon in any message
-  final void Function(BuildContext context, types.Message)? onMessageStatusTap;
+  final void Function(types.Message)? onMessageStatusTap;
 
   /// Called when user taps on any message
-  final void Function(BuildContext context, types.Message)? onMessageTap;
+  final void Function(types.Message)? onMessageTap;
 
   /// See [TextMessage.onPreviewDataFetched]
   final void Function(types.TextMessage, types.PreviewData)?
@@ -284,16 +282,10 @@ class Message extends StatelessWidget {
     final _messageBorderRadius =
         InheritedChatTheme.of(context).theme.messageBorderRadius;
     final _borderRadius = BorderRadius.only(
-      bottomLeft: Radius.circular(
-        _currentUserIsAuthor || roundBorder ? _messageBorderRadius : 0,
-      ),
-      bottomRight: Radius.circular(_currentUserIsAuthor
-          ? roundBorder
-              ? _messageBorderRadius
-              : 0
-          : _messageBorderRadius),
-      topLeft: Radius.circular(_messageBorderRadius),
-      topRight: Radius.circular(_messageBorderRadius),
+      bottomLeft: Radius.circular(_currentUserIsAuthor ? 55:0),
+      bottomRight: Radius.circular(55),
+      topLeft: Radius.circular(55),
+      topRight: Radius.circular(_currentUserIsAuthor ?   0 : 55),
     );
 
     return Container(
@@ -307,7 +299,8 @@ class Message extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (!_currentUserIsAuthor && showUserAvatars) _avatarBuilder(context),
+          if (!_currentUserIsAuthor && showUserAvatars)
+            _avatarBuilder(context),
           ConstrainedBox(
             constraints: BoxConstraints(
               maxWidth: messageWidth.toDouble(),
@@ -316,8 +309,8 @@ class Message extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 GestureDetector(
-                  onLongPress: () => onMessageLongPress?.call(context, message),
-                  onTap: () => onMessageTap?.call(context, message),
+                  onLongPress: () => onMessageLongPress?.call(message),
+                  onTap: () => onMessageTap?.call(message),
                   child: _bubbleBuilder(
                     context,
                     _borderRadius,
@@ -334,8 +327,8 @@ class Message extends StatelessWidget {
               child: showStatus
                   ? GestureDetector(
                       onLongPress: () =>
-                          onMessageStatusLongPress?.call(context, message),
-                      onTap: () => onMessageStatusTap?.call(context, message),
+                          onMessageStatusLongPress?.call(message),
+                      onTap: () => onMessageStatusTap?.call(message),
                       child: _statusBuilder(context),
                     )
                   : null,

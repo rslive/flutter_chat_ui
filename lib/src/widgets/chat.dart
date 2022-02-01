@@ -1,22 +1,18 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
-import 'package:flutter_chat_ui/src/widgets/inherited_l10n.dart';
+import 'package:flutter_chat_ui/src/conditional/conditional.dart';
+import 'package:flutter_chat_ui/src/models/date_header.dart';
+import 'package:flutter_chat_ui/src/models/message_spacer.dart';
+import 'package:flutter_chat_ui/src/models/preview_image.dart';
 import 'package:intl/intl.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
-import '../chat_l10n.dart';
-import '../chat_theme.dart';
-import '../conditional/conditional.dart';
-import '../models/date_header.dart';
-import '../models/emoji_enlargement_behavior.dart';
-import '../models/message_spacer.dart';
-import '../models/preview_image.dart';
-import '../models/send_button_visibility_mode.dart';
+import '../../flutter_chat_ui.dart';
 import '../util.dart';
 import 'chat_list.dart';
 import 'inherited_chat_theme.dart';
+import 'inherited_l10n.dart';
 import 'inherited_user.dart';
 import 'input.dart';
 import 'message.dart';
@@ -28,6 +24,7 @@ class Chat extends StatefulWidget {
   const Chat({
     Key? key,
     this.bubbleBuilder,
+    this.isWeb,
     this.customBottomWidget,
     this.customDateHeaderText,
     this.customMessageBuilder,
@@ -79,6 +76,7 @@ class Chat extends StatefulWidget {
   /// Allows you to replace the default Input widget e.g. if you want to create
   /// a channel view.
   final Widget? customBottomWidget;
+  final bool? isWeb;
 
   /// If [dateFormat], [dateLocale] and/or [timeFormat] is not enough to
   /// customize date headers in your case, use this to return an arbitrary
@@ -168,17 +166,16 @@ class Chat extends StatefulWidget {
   final double? onEndReachedThreshold;
 
   /// See [Message.onMessageLongPress]
-  final void Function(BuildContext context, types.Message)? onMessageLongPress;
+  final void Function(types.Message)? onMessageLongPress;
 
   /// See [Message.onMessageStatusLongPress]
-  final void Function(BuildContext context, types.Message)?
-      onMessageStatusLongPress;
+  final void Function(types.Message)? onMessageStatusLongPress;
 
   /// See [Message.onMessageStatusTap]
-  final void Function(BuildContext context, types.Message)? onMessageStatusTap;
+  final void Function(types.Message)? onMessageStatusTap;
 
   /// See [Message.onMessageTap]
-  final void Function(BuildContext context, types.Message)? onMessageTap;
+  final void Function(types.Message)? onMessageTap;
 
   /// See [Message.onPreviewDataFetched]
   final void Function(types.TextMessage, types.PreviewData)?
@@ -338,11 +335,14 @@ class _ChatState extends State<Chat> {
   Widget _messageBuilder(Object object, BoxConstraints constraints) {
     if (object is DateHeader) {
       return Container(
-        alignment: Alignment.center,
-        margin: widget.theme.dateDividerMargin,
-        child: Text(
-          object.text,
-          style: widget.theme.dateDividerTextStyle,
+        alignment: Alignment.topLeft,
+        margin: EdgeInsets.only(bottom: 11),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 22.0),
+          child: Text(
+            object.text,
+            style: TextStyle(color: AppColor.smallTextColor,fontSize: 10),
+          ),
         ),
       );
     } else if (object is MessageSpacer) {
@@ -371,13 +371,13 @@ class _ChatState extends State<Chat> {
         onMessageLongPress: widget.onMessageLongPress,
         onMessageStatusLongPress: widget.onMessageStatusLongPress,
         onMessageStatusTap: widget.onMessageStatusTap,
-        onMessageTap: (context, tappedMessage) {
+        onMessageTap: (tappedMessage) {
           if (tappedMessage is types.ImageMessage &&
               widget.disableImageGallery != true) {
             _onImagePressed(tappedMessage);
           }
 
-          widget.onMessageTap?.call(context, tappedMessage);
+          widget.onMessageTap?.call(tappedMessage);
         },
         onPreviewDataFetched: _onPreviewDataFetched,
         roundBorder: map['nextMessageInGroup'] == true,
@@ -430,7 +430,11 @@ class _ChatState extends State<Chat> {
           child: Stack(
             children: [
               Container(
-                color: widget.theme.backgroundColor,
+                decoration: BoxDecoration(
+                    color: AppColor.backgroundColor,
+
+                    borderRadius: BorderRadius.circular(widget.isWeb==true?10:0)
+                ),
                 child: Column(
                   children: [
                     Flexible(
@@ -438,7 +442,8 @@ class _ChatState extends State<Chat> {
                           ? SizedBox.expand(
                               child: _emptyStateBuilder(),
                             )
-                          : GestureDetector(
+                          :
+                      GestureDetector(
                               onTap: () {
                                 FocusManager.instance.primaryFocus?.unfocus();
                                 widget.onBackgroundTap?.call();
@@ -448,13 +453,11 @@ class _ChatState extends State<Chat> {
                                         BoxConstraints constraints) =>
                                     ChatList(
                                   isLastPage: widget.isLastPage,
-                                  itemBuilder: (item, index) =>
-                                      _messageBuilder(item, constraints),
+                                  itemBuilder: (item, index) => _messageBuilder(item, constraints),
                                   items: _chatMessages,
-                                  onEndReached: widget.onEndReached,
-                                  onEndReachedThreshold:
-                                      widget.onEndReachedThreshold,
-                                  scrollPhysics: widget.scrollPhysics,
+                                 onEndReached: widget.onEndReached,
+                                 onEndReachedThreshold: widget.onEndReachedThreshold,
+                                 scrollPhysics: widget.scrollPhysics,
                                 ),
                               ),
                             ),

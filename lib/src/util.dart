@@ -1,12 +1,15 @@
 import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:intl/intl.dart';
-import './models/date_header.dart';
-import './models/emoji_enlargement_behavior.dart';
-import './models/message_spacer.dart';
-import './models/preview_image.dart';
+
+import '../flutter_chat_ui.dart';
+import 'models/date_header.dart';
+import 'models/message_spacer.dart';
+import 'models/preview_image.dart';
+
 
 /// Returns text representation of a provided bytes value (e.g. 1kB, 1GB)
 String formatBytes(int size, [int fractionDigits = 2]) {
@@ -223,3 +226,57 @@ List<Object> calculateChatMessages(
 
   return [chatMessages, gallery];
 }
+
+
+class AppColor {
+  const AppColor._();
+
+  static const Color primaryAccentColor = Color(0xFF2596be);
+  static const Color greenAccent = Color(0xFF78b77b);
+  static const Color primaryColor = Color(0xFF1d4269);
+  static const Color primaryDarkColor = Color(0xFF053647);
+  static const Color greenColor = Color(0xFF4CAF50);
+  static const Color secondaryColor = Color(0xFFf2ae27);
+  static const Color backgroundColor = Color(0xFFE6E6E6);
+  static const Color lightPrimaryColor = Color(0xFF22538a);
+  static const Color primaryLightColor = Color(0xFFb3d8e6);
+  static const Color silverAccent = Colors.white30;
+  static const Color scaffoldColor = Color(0xFF87AAAA);
+  static const Color unselectedColor = Colors.black54;
+  static const Color lightBorderColor = Colors.white60;
+  static const Color primaryTextColor = Color(0xFFF5F5F5);
+  static const Color secondaryTextColor = Colors.black87;
+  static const Color darkBorderColor = Colors.black54;
+  static const Color darkBackgroundColor = Color(0xFF202020);
+
+  // color names extracted from https://chir.ag/projects/name-that-color
+  static const Color mercury = Color(0xFFe3e3e3);
+  static const Color gallery = Color(0xFFededed);
+  static const Color mineShaft = Color(0xFF333333);
+  static const Color doveGrey = Color(0xff6f6f6f);
+  static const Color facebook = Color(0xff3b5998);
+  static const Color white = Color(0xffffffff);
+  static const Color black = Color(0xff000000);
+  static const Color fuelYellow = Color(0xfff2ae27);
+  static const Color greenSpring = Color(0xffb0b1b0);
+  static const Color pampas = Color(0xffF5F5EE);
+  static const Color grayNickel = Color(0xffc5c5c4);
+  static const Color desertStorm = Color(0xffEBEBEA);
+  static const Color nevada = Color(0xff6c7178);
+  static const Color textAndStarGrey = Color(0xffB1B1B1);
+  static const Color resetButton = Color(0xffE6E6E6);
+  static const Color missionColor = Color(0xffAEAEAE);
+  static const Color smallTextColor = Color(0xff848484);
+  static const Color dividerColor = Color(0xffEAEAEA);
+  static const Color dividerHeadingColor = Color(0xffE6E6E6);
+  static  Color circleContainerBackGround = Color(0xff1D4269).withOpacity(0.1);
+
+  //button colors
+  static const Color buttonColor = Color(0xFF32CD32);
+  static const Color buttonTextColor = Colors.white;
+  static const Color tagTextColor = Colors.black54;
+}
+
+
+
+

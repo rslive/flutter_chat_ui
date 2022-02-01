@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_link_previewer/flutter_link_previewer.dart'
     show LinkPreview, regexLink;
-import '../models/emoji_enlargement_behavior.dart';
+import '../../flutter_chat_ui.dart';
 import '../util.dart';
 import 'inherited_chat_theme.dart';
 import 'inherited_user.dart';
@@ -99,8 +99,7 @@ class TextMessage extends StatelessWidget {
     bool enlargeEmojis,
   ) {
     final theme = InheritedChatTheme.of(context).theme;
-    final color =
-        getUserAvatarNameColor(message.author, theme.userAvatarNameColors);
+    final color = getUserAvatarNameColor(message.author, theme.userAvatarNameColors);
     final name = getUserName(message.author);
 
     return Column(
@@ -121,10 +120,10 @@ class TextMessage extends StatelessWidget {
           style: user.id == message.author.id
               ? enlargeEmojis
                   ? theme.sentEmojiMessageTextStyle
-                  : theme.sentMessageBodyTextStyle
+                  : TextStyle(color: AppColor.white,fontSize: 15)
               : enlargeEmojis
                   ? theme.receivedEmojiMessageTextStyle
-                  : theme.receivedMessageBodyTextStyle,
+                  : TextStyle(color: AppColor.black,fontSize: 15),
           textWidthBasis: TextWidthBasis.longestLine,
         ),
       ],
