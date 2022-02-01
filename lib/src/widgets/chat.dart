@@ -332,7 +332,7 @@ class _ChatState extends State<Chat> {
     );
   }
 
-  Widget _messageBuilder(Object object, BoxConstraints constraints) {
+  Widget _messageBuilder(Object object, BoxConstraints constraints,isWeb) {
     if (object is DateHeader) {
       return Container(
         alignment: Alignment.topLeft,
@@ -358,6 +358,7 @@ class _ChatState extends State<Chat> {
               : min(constraints.maxWidth * 0.78, 440).floor();
 
       return Message(
+        isWeb: isWeb,
         key: ValueKey(message.id),
         bubbleBuilder: widget.bubbleBuilder,
         customMessageBuilder: widget.customMessageBuilder,
@@ -431,7 +432,7 @@ class _ChatState extends State<Chat> {
             children: [
               Container(
                 decoration: BoxDecoration(
-                    color: AppColor.backgroundColor,
+                    color: widget.isWeb==true?AppColor.white:AppColor.backgroundColor,
 
                     borderRadius: BorderRadius.circular(widget.isWeb==true?10:0)
                 ),
@@ -453,7 +454,7 @@ class _ChatState extends State<Chat> {
                                         BoxConstraints constraints) =>
                                     ChatList(
                                   isLastPage: widget.isLastPage,
-                                  itemBuilder: (item, index) => _messageBuilder(item, constraints),
+                                  itemBuilder: (item, index) => _messageBuilder(item, constraints,widget.isWeb),
                                   items: _chatMessages,
                                  onEndReached: widget.onEndReached,
                                  onEndReachedThreshold: widget.onEndReachedThreshold,
@@ -464,6 +465,7 @@ class _ChatState extends State<Chat> {
                     ),
                     widget.customBottomWidget ??
                         Input(
+                          isWeb :widget.isWeb,
                           isAttachmentUploading: widget.isAttachmentUploading,
                           onAttachmentPressed: widget.onAttachmentPressed,
                           onSendPressed: widget.onSendPressed,

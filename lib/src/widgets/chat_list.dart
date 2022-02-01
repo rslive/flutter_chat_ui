@@ -10,6 +10,7 @@ class ChatList extends StatefulWidget {
   const ChatList({
     Key? key,
     this.isLastPage,
+    this.isWeb,
     required this.itemBuilder,
     required this.items,
     this.onEndReached,
@@ -21,6 +22,7 @@ class ChatList extends StatefulWidget {
   /// When true, indicates that there are no more pages to load and
   /// pagination will not be triggered.
   final bool? isLastPage;
+  final bool? isWeb;
 
   /// Items to build
   final List<Object> items;

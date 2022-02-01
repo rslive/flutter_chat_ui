@@ -22,6 +22,7 @@ class Input extends StatefulWidget {
   const Input({
     Key? key,
     this.isAttachmentUploading,
+    this.isWeb,
     this.onAttachmentPressed,
     required this.onSendPressed,
     this.onTextChanged,
@@ -37,6 +38,7 @@ class Input extends StatefulWidget {
   /// managing media in dependencies we have no way of knowing if
   /// something is uploading so you need to set this manually.
   final bool? isAttachmentUploading;
+  final bool? isWeb;
 
   /// Will be called on [SendButton] tap. Has [types.PartialText] which can
   /// be transformed to [types.TextMessage] and added to the messages list.
@@ -153,7 +155,7 @@ class _InputState extends State<Input> {
               padding: EdgeInsets.all(16),
               child: Material(
                 borderRadius: BorderRadius.circular(55),
-                color: AppColor.white,
+                color: widget.isWeb==true?AppColor.backgroundColor:AppColor.white,
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 18,vertical: 7),
                   child: Row(

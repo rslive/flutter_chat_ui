@@ -16,6 +16,7 @@ class Message extends StatelessWidget {
   const Message({
     Key? key,
     this.bubbleBuilder,
+    this.isWeb,
     this.customMessageBuilder,
     required this.emojiEnlargementBehavior,
     this.fileMessageBuilder,
@@ -64,6 +65,7 @@ class Message extends StatelessWidget {
 
   /// Hide background for messages containing only emojis.
   final bool hideBackgroundOnEmojiMessages;
+  final bool? isWeb;
 
   /// Build an image message inside predefined bubble
   final Widget Function(types.ImageMessage, {required int messageWidth})?
@@ -171,10 +173,18 @@ class Message extends StatelessWidget {
             ? _messageBuilder()
             : Container(
                 decoration: BoxDecoration(
+                  boxShadow:  const [
+                   BoxShadow(
+                      color:AppColor.backgroundColor,
+                      spreadRadius: 1,
+                      blurRadius: 9,
+                    ),
+                  ],
+
                   borderRadius: borderRadius,
                   color: !currentUserIsAuthor ||
                           message.type == types.MessageType.image
-                      ? InheritedChatTheme.of(context).theme.secondaryColor
+                      ?AppColor.white
                       : InheritedChatTheme.of(context).theme.primaryColor,
                 ),
                 child: ClipRRect(
@@ -210,6 +220,7 @@ class Message extends StatelessWidget {
                 showName: showName,
               )
             : TextMessage(
+
                 emojiEnlargementBehavior: emojiEnlargementBehavior,
                 hideBackgroundOnEmojiMessages: hideBackgroundOnEmojiMessages,
                 message: textMessage,
