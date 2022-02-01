@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_ui/src/util.dart';
 
 // For internal usage only. Use values from theme itself.
 
@@ -60,9 +61,7 @@ abstract class ChatTheme {
     required this.errorIcon,
     required this.inputBackgroundColor,
     required this.inputBorderRadius,
-    this.inputContainerDecoration,
     required this.inputPadding,
-    required this.inputMargin,
     required this.inputTextColor,
     this.inputTextCursorColor,
     required this.inputTextDecoration,
@@ -127,14 +126,8 @@ abstract class ChatTheme {
   /// Top border radius of the bottom bar where text field is
   final BorderRadius inputBorderRadius;
 
-  /// Decoration of the container wrapping the text field
-  final Decoration? inputContainerDecoration;
-
-  /// Inner insets of the bottom bar where text field is
+  /// Insets of the bottom bar where text field is
   final EdgeInsetsGeometry inputPadding;
-
-  /// Outer insets of the bottom bar where text field is
-  final EdgeInsetsGeometry inputMargin;
 
   /// Color of the text field's text and attachment/send buttons
   final Color inputTextColor;
@@ -268,9 +261,7 @@ class DefaultChatTheme extends ChatTheme {
     BorderRadius inputBorderRadius = const BorderRadius.vertical(
       top: Radius.circular(20),
     ),
-    Decoration? inputContainerDecoration,
-    EdgeInsetsGeometry inputPadding = const EdgeInsets.fromLTRB(24, 20, 24, 20),
-    EdgeInsetsGeometry inputMargin = EdgeInsets.zero,
+    EdgeInsetsGeometry inputPadding = EdgeInsets.zero,
     Color inputTextColor = neutral7,
     Color? inputTextCursorColor,
     InputDecoration inputTextDecoration = const InputDecoration(
@@ -286,7 +277,7 @@ class DefaultChatTheme extends ChatTheme {
     double messageBorderRadius = 20,
     double messageInsetsHorizontal = 20,
     double messageInsetsVertical = 16,
-    Color primaryColor = primary,
+    Color primaryColor = AppColor.primaryColor,
     TextStyle receivedEmojiMessageTextStyle = const TextStyle(fontSize: 40),
     TextStyle receivedMessageBodyTextStyle = const TextStyle(
       color: neutral0,
@@ -320,8 +311,8 @@ class DefaultChatTheme extends ChatTheme {
     TextStyle sentEmojiMessageTextStyle = const TextStyle(fontSize: 40),
     TextStyle sentMessageBodyTextStyle = const TextStyle(
       color: neutral7,
-      fontSize: 16,
-      fontWeight: FontWeight.w500,
+      fontSize: 15,
+     // fontWeight: FontWeight.w500,
       height: 1.5,
     ),
     TextStyle sentMessageCaptionTextStyle = const TextStyle(
@@ -370,9 +361,7 @@ class DefaultChatTheme extends ChatTheme {
           errorIcon: errorIcon,
           inputBackgroundColor: inputBackgroundColor,
           inputBorderRadius: inputBorderRadius,
-          inputContainerDecoration: inputContainerDecoration,
           inputPadding: inputPadding,
-          inputMargin: inputMargin,
           inputTextColor: inputTextColor,
           inputTextCursorColor: inputTextCursorColor,
           inputTextDecoration: inputTextDecoration,
@@ -417,14 +406,12 @@ class DarkChatTheme extends ChatTheme {
     Widget? attachmentButtonIcon,
     Color backgroundColor = dark,
     EdgeInsetsGeometry dateDividerMargin = const EdgeInsets.only(
-      bottom: 32,
-      top: 16,
+      bottom: 20,
+      top: 11,
     ),
     TextStyle dateDividerTextStyle = const TextStyle(
-      color: neutral7,
-      fontSize: 12,
-      fontWeight: FontWeight.w800,
-      height: 1.333,
+      color: AppColor.smallTextColor,
+      fontSize: 10,
     ),
     Widget? deliveredIcon,
     Widget? documentIcon,
@@ -440,9 +427,7 @@ class DarkChatTheme extends ChatTheme {
     BorderRadius inputBorderRadius = const BorderRadius.vertical(
       top: Radius.circular(20),
     ),
-    Decoration? inputContainerDecoration,
     EdgeInsetsGeometry inputPadding = EdgeInsets.zero,
-    EdgeInsetsGeometry inputMargin = const EdgeInsets.fromLTRB(24, 20, 24, 20),
     Color inputTextColor = neutral7,
     Color? inputTextCursorColor,
     InputDecoration inputTextDecoration = const InputDecoration(
@@ -455,15 +440,14 @@ class DarkChatTheme extends ChatTheme {
       fontWeight: FontWeight.w500,
       height: 1.5,
     ),
-    double messageBorderRadius = 20,
+    double messageBorderRadius = 15,
     double messageInsetsHorizontal = 20,
     double messageInsetsVertical = 16,
     Color primaryColor = primary,
     TextStyle receivedEmojiMessageTextStyle = const TextStyle(fontSize: 40),
     TextStyle receivedMessageBodyTextStyle = const TextStyle(
-      color: neutral7,
-      fontSize: 16,
-      fontWeight: FontWeight.w500,
+      color: AppColor.black,
+      fontSize: 15,
       height: 1.5,
     ),
     TextStyle receivedMessageCaptionTextStyle = const TextStyle(
@@ -491,9 +475,8 @@ class DarkChatTheme extends ChatTheme {
     Widget? sendingIcon,
     TextStyle sentEmojiMessageTextStyle = const TextStyle(fontSize: 40),
     TextStyle sentMessageBodyTextStyle = const TextStyle(
-      color: neutral7,
-      fontSize: 16,
-      fontWeight: FontWeight.w500,
+      color: Colors.red,
+      fontSize: 15,
       height: 1.5,
     ),
     TextStyle sentMessageCaptionTextStyle = const TextStyle(
@@ -542,16 +525,14 @@ class DarkChatTheme extends ChatTheme {
           errorIcon: errorIcon,
           inputBackgroundColor: inputBackgroundColor,
           inputBorderRadius: inputBorderRadius,
-          inputContainerDecoration: inputContainerDecoration,
+          messageInsetsHorizontal: messageInsetsHorizontal,
+          messageInsetsVertical: messageInsetsVertical,
           inputPadding: inputPadding,
-          inputMargin: inputMargin,
           inputTextColor: inputTextColor,
           inputTextCursorColor: inputTextCursorColor,
           inputTextDecoration: inputTextDecoration,
           inputTextStyle: inputTextStyle,
           messageBorderRadius: messageBorderRadius,
-          messageInsetsHorizontal: messageInsetsHorizontal,
-          messageInsetsVertical: messageInsetsVertical,
           primaryColor: primaryColor,
           receivedEmojiMessageTextStyle: receivedEmojiMessageTextStyle,
           receivedMessageBodyTextStyle: receivedMessageBodyTextStyle,
