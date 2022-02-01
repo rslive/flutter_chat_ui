@@ -172,7 +172,7 @@ class _InputState extends State<Input> {
                               .theme
                               .inputTextCursorColor,
                           decoration: InputDecoration(
-                            //  isDense: true,
+                              isDense: true,
                             border: InputBorder.none,
                             hintText: 'Type something here',
                             hintStyle: Theme.of(context)
