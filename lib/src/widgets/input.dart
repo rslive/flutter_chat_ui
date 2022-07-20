@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+
 import '../../flutter_chat_ui.dart';
 import '../util.dart';
 import 'attachment_button.dart';
@@ -24,6 +25,7 @@ class Input extends StatefulWidget {
     this.isAttachmentUploading,
     this.isWeb,
     this.onAttachmentPressed,
+    this.onLocationPressed,
     required this.onSendPressed,
     this.onTextChanged,
     this.onTextFieldTap,
@@ -32,6 +34,7 @@ class Input extends StatefulWidget {
 
   /// See [AttachmentButton.onPressed]
   final void Function()? onAttachmentPressed;
+  final void Function()? onLocationPressed;
 
   /// Whether attachment is uploading. Will replace attachment button with a
   /// [CircularProgressIndicator]. Since we don't have libraries for
@@ -114,7 +117,12 @@ class _InputState extends State<Input> {
         ),
       );
     } else {
-      return AttachmentButton(onPressed: widget.onAttachmentPressed);
+      return Row(
+        children: [
+          AttachmentButton(onPressed: widget.onAttachmentPressed),
+          LocationButton(onPressed: widget.onLocationPressed),
+        ],
+      );
     }
   }
 
@@ -146,25 +154,29 @@ class _InputState extends State<Input> {
                     TextPosition(offset: _newValue.length),
                   ),
                 );
+                return null;
               },
             ),
           },
           child: Focus(
             autofocus: true,
             child: Padding(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Material(
                 borderRadius: BorderRadius.circular(55),
-                color: widget.isWeb==true?AppColor.backgroundColor:AppColor.white,
+                color: widget.isWeb == true
+                    ? AppColor.backgroundColor
+                    : AppColor.white,
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 18,vertical: 7),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 18, vertical: 7),
                   child: Row(
                     children: [
                       if (widget.onAttachmentPressed != null) _leftWidget(),
                       Container(
-                          margin: EdgeInsets.only(right: 8,top: 5),
+                          margin: const EdgeInsets.only(right: 8, top: 5),
                           height: 20,
-                          child: VerticalDivider(
+                          child: const VerticalDivider(
                             color: AppColor.dividerColor,
                           )),
                       Expanded(
@@ -174,7 +186,7 @@ class _InputState extends State<Input> {
                               .theme
                               .inputTextCursorColor,
                           decoration: InputDecoration(
-                              isDense: true,
+                            isDense: true,
                             border: InputBorder.none,
                             hintText: 'Type something here',
                             hintStyle: Theme.of(context)

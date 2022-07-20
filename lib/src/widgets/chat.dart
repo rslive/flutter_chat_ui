@@ -1,4 +1,5 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/src/conditional/conditional.dart';
@@ -43,6 +44,7 @@ class Chat extends StatefulWidget {
     this.l10n = const ChatL10nEn(),
     required this.messages,
     this.onAttachmentPressed,
+    this.onLocationPressed,
     this.onAvatarTap,
     this.onBackgroundTap,
     this.onEndReached,
@@ -152,6 +154,8 @@ class Chat extends StatefulWidget {
 
   /// See [Input.onAttachmentPressed]
   final void Function()? onAttachmentPressed;
+
+  final void Function()? onLocationPressed;
 
   /// See [Message.onAvatarTap]
   final void Function(types.User)? onAvatarTap;
@@ -332,16 +336,17 @@ class _ChatState extends State<Chat> {
     );
   }
 
-  Widget _messageBuilder(Object object, BoxConstraints constraints,isWeb) {
+  Widget _messageBuilder(Object object, BoxConstraints constraints, isWeb) {
     if (object is DateHeader) {
       return Container(
         alignment: Alignment.topLeft,
-        margin: EdgeInsets.only(bottom: 11),
+        margin: const EdgeInsets.only(bottom: 11),
         child: Padding(
           padding: const EdgeInsets.only(left: 22.0),
           child: Text(
             object.text,
-            style: TextStyle(color: AppColor.smallTextColor,fontSize: 10),
+            style:
+                const TextStyle(color: AppColor.smallTextColor, fontSize: 10),
           ),
         ),
       );
@@ -432,10 +437,11 @@ class _ChatState extends State<Chat> {
             children: [
               Container(
                 decoration: BoxDecoration(
-                    color: widget.isWeb==true?AppColor.white:AppColor.backgroundColor,
-
-                    borderRadius: BorderRadius.circular(widget.isWeb==true?10:0)
-                ),
+                    color: widget.isWeb == true
+                        ? AppColor.white
+                        : AppColor.backgroundColor,
+                    borderRadius:
+                        BorderRadius.circular(widget.isWeb == true ? 10 : 0)),
                 child: Column(
                   children: [
                     Flexible(
@@ -443,8 +449,7 @@ class _ChatState extends State<Chat> {
                           ? SizedBox.expand(
                               child: _emptyStateBuilder(),
                             )
-                          :
-                      GestureDetector(
+                          : GestureDetector(
                               onTap: () {
                                 FocusManager.instance.primaryFocus?.unfocus();
                                 widget.onBackgroundTap?.call();
@@ -454,20 +459,23 @@ class _ChatState extends State<Chat> {
                                         BoxConstraints constraints) =>
                                     ChatList(
                                   isLastPage: widget.isLastPage,
-                                  itemBuilder: (item, index) => _messageBuilder(item, constraints,widget.isWeb),
+                                  itemBuilder: (item, index) => _messageBuilder(
+                                      item, constraints, widget.isWeb),
                                   items: _chatMessages,
-                                 onEndReached: widget.onEndReached,
-                                 onEndReachedThreshold: widget.onEndReachedThreshold,
-                                 scrollPhysics: widget.scrollPhysics,
+                                  onEndReached: widget.onEndReached,
+                                  onEndReachedThreshold:
+                                      widget.onEndReachedThreshold,
+                                  scrollPhysics: widget.scrollPhysics,
                                 ),
                               ),
                             ),
                     ),
                     widget.customBottomWidget ??
                         Input(
-                          isWeb :widget.isWeb,
+                          isWeb: widget.isWeb,
                           isAttachmentUploading: widget.isAttachmentUploading,
                           onAttachmentPressed: widget.onAttachmentPressed,
+                          onLocationPressed: widget.onLocationPressed,
                           onSendPressed: widget.onSendPressed,
                           onTextChanged: widget.onTextChanged,
                           onTextFieldTap: widget.onTextFieldTap,
